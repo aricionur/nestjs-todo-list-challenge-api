@@ -1,0 +1,30 @@
+scalar Date
+
+type Query {
+  listTodos: [Todo]
+}
+
+type Mutation {
+  createTodo(input: TodoInput): Todo
+  markTodoCompleted(id: Int!): Todo
+  markTodoUncompleted(id: Int!): Todo
+  deleteTodo(id: Int!): Success
+}
+
+type Todo {
+  id: Int
+  isCompleted: Boolean
+  title: String
+  updatedAt: Date
+  createdAt: Date
+}
+
+type Success {
+  isSuccess: Boolean
+}
+
+input TodoInput {
+  id: Int
+  isCompleted: Boolean
+  title: String
+}
