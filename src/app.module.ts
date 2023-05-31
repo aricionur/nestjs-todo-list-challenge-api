@@ -9,9 +9,12 @@ import { AppService } from './app.service';
 import { TodosModule } from './todos/todos.module';
 import { TodoModel } from './todos';
 import { CommonModule } from './common/common.module';
+import { UsersModule } from './users/users.module';
+import { UserModel } from './users/models/user.model';
 
 @Module({
   imports: [
+    UsersModule,
     TodosModule,
     CommonModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -31,7 +34,7 @@ import { CommonModule } from './common/common.module';
       username: 'root',
       password: 'admin',
       database: 'testDB',
-      models: [TodoModel],
+      models: [TodoModel, UserModel],
     }),
   ],
   controllers: [AppController],
