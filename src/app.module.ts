@@ -3,6 +3,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 import { SequelizeModule } from '@nestjs/sequelize';
+import { APP_GUARD } from '@nestjs/core';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -11,6 +12,9 @@ import { TodoModel } from './todos';
 import { CommonModule } from './common/common.module';
 import { UsersModule } from './users/users.module';
 import { UserModel } from './users/models/user.model';
+import { AuthGuard } from './auth/auth.guard';
+
+const AuthGuardProvider = { provide: APP_GUARD, useClass: AuthGuard };
 
 @Module({
   imports: [
@@ -38,6 +42,6 @@ import { UserModel } from './users/models/user.model';
     }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AuthGuardProvider],
 })
 export class AppModule {}

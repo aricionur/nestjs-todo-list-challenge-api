@@ -7,6 +7,7 @@ import * as jwt from 'jsonwebtoken';
 import { User } from 'src/graphql.schema';
 import { UserModel } from './models/user.model';
 import { UserDto } from './dto/createUserDto';
+import { jwtConstants } from 'src/auth/constants';
 
 @Injectable()
 export class UsersService {
@@ -35,7 +36,7 @@ export class UsersService {
 
     const token = jwt.sign(
       { userID: newUser.id, email: newUser.email },
-      'THE_SECRET_KEY',
+      jwtConstants.secret,
       { expiresIn: '2h' },
     );
 
@@ -52,7 +53,7 @@ export class UsersService {
     if (user && (await bcryptjs.compare(password, user.password))) {
       user.token = jwt.sign(
         { userID: user.id, email: user.email },
-        'THE_SECRET_KEY',
+        jwtConstants.secret,
         { expiresIn: '2h' },
       );
 

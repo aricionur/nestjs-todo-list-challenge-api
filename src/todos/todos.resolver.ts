@@ -1,4 +1,4 @@
-import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { GraphQLError } from 'graphql';
 
 import { TodosService } from './todos.service';
@@ -6,13 +6,16 @@ import { Todo } from 'src/graphql.schema';
 import { TodoDto } from './dto/createTodoDto';
 import { TodoModel } from './models/todo.model';
 import { Success } from 'src/graphql.schema';
+import { User } from 'src/users/decorators/user .decorator';
 
 @Resolver('Todos')
 export class TodosResolver {
   constructor(private readonly todosService: TodosService) {}
 
   @Query('listTodos')
-  getTodos(@Args() args: object) {
+  getTodos(@Args() args: object, @User() user: any) {
+    console.log(user);
+
     return this.todosService.findAll(args);
   }
 
