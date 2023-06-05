@@ -7,21 +7,23 @@ import { TodoDto } from './dto/createTodoDto';
 import { TodoModel } from './models/todo.model';
 import { Success } from 'src/graphql.schema';
 import { User } from 'src/users/decorators/user .decorator';
+import { AuthUserDto } from '../users/dto/authUserDto';
 
 @Resolver('Todos')
 export class TodosResolver {
   constructor(private readonly todosService: TodosService) {}
 
   @Query('listTodos')
-  getTodos(@Args() args: object, @User() user: any) {
-    console.log(user);
-
-    return this.todosService.findAll(args);
+  getTodos(@Args() args: object, @User() user: AuthUserDto) {
+    return this.todosService.listTodos(args, user);
   }
 
   @Mutation('createTodo')
-  createTodo(@Args('input') args: TodoDto): Todo | Promise<Todo> {
-    return this.todosService.saveTodo(args, {});
+  createTodo(
+    @Args('input') args: TodoDto,
+    @User() user: AuthUserDto,
+  ): Todo | Promise<Todo> {
+    return this.todosService.saveTodo(args, user);
   }
 
   @Mutation('markTodoCompleted')
